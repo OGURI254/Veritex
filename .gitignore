@@ -1,0 +1,29 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+veritex-ai/venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project specific
+extracted_text.txt
+GlobalLegalJusticePlatform.docx
+
+# Logs
+*.log
