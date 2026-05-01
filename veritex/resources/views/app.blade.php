@@ -15,5 +15,17 @@
     </head>
     <body class="font-sans antialiased bg-darkbg-200 text-white selection:bg-secondary-500 selection:text-white">
         @inertia
+        
+        <!-- Automatically unregister legacy Service Workers that break Inertia redirects -->
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                        registration.unregister();
+                        console.log('Unregistered rogue service worker:', registration);
+                    }
+                });
+            }
+        </script>
     </body>
 </html>

@@ -31,6 +31,12 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             )}
 
+            {Object.keys(errors).length > 0 && (
+                <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-sm text-red-500 text-center">
+                    {errors.email || errors.password || "An error occurred during login. Please try again."}
+                </div>
+            )}
+
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="email" value="Email" />

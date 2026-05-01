@@ -16,7 +16,7 @@ import {
     Pause, StopCircle, Radio, ListChecks, BarChart, Shuffle, Cpu, Hash as HashIcon,
     Globe, Navigation, Bookmark, FolderOpen, Archive, MessageCircle,
     ThumbsDown, AlertOctagon, Check, Ban, Sparkles, Wand2, SortAsc,
-    Copy, ExternalLink, ChevronUpDown, Headphones, Volume2, User,
+    Copy, ExternalLink, ChevronsUpDown, Headphones, Volume2, User,
     Sliders, Lightbulb, ZapOff, Timer, FolderPlus, FileCheck, FilePlus,
     PenTool, Stamp, Send as SendIcon
 } from 'lucide-react';
@@ -418,12 +418,18 @@ function Sidebar({ active, setActive, collapsed, setCollapsed }) {
             </nav>
 
             <div className="border-t py-2" style={{ borderColor: T.border }}>
-                {[{ icon: Settings, label: 'Settings' }, { icon: LogOut, label: 'Sign Out' }].map(({ icon: Icon, label }) => (
-                    <button key={label} className="w-full flex items-center gap-2.5 px-3 py-2 hover:text-white/60 transition-colors" style={{ color: T.text4 }}>
-                        <Icon style={{ width: 14, height: 14 }} className="flex-shrink-0" />
-                        {!collapsed && <span className="text-[11px]">{label}</span>}
-                    </button>
-                ))}
+                {[
+                    { icon: Settings, label: 'Settings', href: route('profile.edit') },
+                    { icon: LogOut, label: 'Sign Out', href: route('logout'), method: 'post' }
+                ].map(({ icon: Icon, label, href, method }) => {
+                    const Comp = method ? Link : 'a';
+                    return (
+                        <Comp key={label} href={href} method={method} as={method ? 'button' : undefined} className="w-full flex items-center gap-2.5 px-3 py-2 hover:text-white/60 transition-colors" style={{ color: T.text4 }}>
+                            <Icon style={{ width: 14, height: 14 }} className="flex-shrink-0" />
+                            {!collapsed && <span className="text-[11px]">{label}</span>}
+                        </Comp>
+                    );
+                })}
             </div>
         </aside>
     );

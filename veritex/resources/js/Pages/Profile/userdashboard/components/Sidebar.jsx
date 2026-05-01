@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from '@inertiajs/react';
 import {
   Scale, LayoutDashboard, Gavel, MessageSquare, CreditCard, FileText,
   MapPin, Shield, Brain, ChevronRight, ChevronLeft, Settings, HelpCircle, LogOut
@@ -68,12 +69,19 @@ export default function Sidebar({ active, setActive, collapsed, setCollapsed }) 
 
       {/* Bottom */}
       <div className="border-t border-white/6 py-3">
-        {[{ icon: Settings, label: 'Settings' }, { icon: HelpCircle, label: 'Help' }, { icon: LogOut, label: 'Sign Out' }].map(({ icon: Icon, label }) => (
-          <button key={label} className="w-full flex items-center gap-3 px-4 py-2 text-white/30 hover:text-white/60 transition-colors">
-            <Icon style={{ width: 16, height: 16 }} className="flex-shrink-0" />
-            {!collapsed && <span className="text-xs">{label}</span>}
-          </button>
-        ))}
+        {[
+          { icon: Settings, label: 'Settings', href: route('profile.edit') },
+          { icon: HelpCircle, label: 'Help', href: '#' },
+          { icon: LogOut, label: 'Sign Out', href: route('logout'), method: 'post' }
+        ].map(({ icon: Icon, label, href, method }) => {
+          const Comp = method ? Link : 'a';
+          return (
+            <Comp key={label} href={href} method={method} as={method ? 'button' : undefined} className="w-full flex items-center gap-3 px-4 py-2 text-white/30 hover:text-white/60 transition-colors">
+              <Icon style={{ width: 16, height: 16 }} className="flex-shrink-0" />
+              {!collapsed && <span className="text-xs">{label}</span>}
+            </Comp>
+          );
+        })}
       </div>
     </aside>
   );

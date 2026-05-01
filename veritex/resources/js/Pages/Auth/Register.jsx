@@ -26,6 +26,12 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
+            {Object.keys(errors).length > 0 && (
+                <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-sm text-red-500 text-center">
+                    {errors.name || errors.email || errors.password || errors.role || "An error occurred during registration. Please check your inputs."}
+                </div>
+            )}
+
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
