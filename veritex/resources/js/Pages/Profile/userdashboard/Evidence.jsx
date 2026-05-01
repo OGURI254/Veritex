@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Shield, Lock, UploadCloud, CheckCircle, Eye, Link } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Shield, Lock, UploadCloud, CheckCircle, Eye, Link, FileText, Image, Video, Mic, Upload, Camera, StopCircle, BadgeCheck, Clock, Download, Trash2, File } from 'lucide-react';
 import { CASES } from './data/mockData';
 import { Card } from './components/SharedUI';
 
