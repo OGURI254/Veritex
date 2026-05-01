@@ -15,6 +15,13 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    $role = auth()->user()->role;
+    
+    if ($role === 'lawyer') {
+        return Inertia::render('Profile/lawyerdashbard/lawyerdashboard');
+    }
+    
+    // Default fallback for citizen (User) or others currently
     return Inertia::render('Profile/userdashboard/Udashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
