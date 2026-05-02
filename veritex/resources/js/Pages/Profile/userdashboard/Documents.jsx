@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import axios from 'axios';
 import {
   Search, FileText, Brain, Clock, Download, Eye, Edit3, Share2,
   Filter, Grid3x3, List, ChevronRight, X, CheckCircle, AlertTriangle,
@@ -1016,18 +1017,11 @@ function AIBar({ doc, allDocs, onGenerateDoc }) {
 ${docContext ? `DOCUMENT CONTEXT:\n${docContext}` : 'No document currently selected.'}`;
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: systemPrompt,
-          messages: [{ role: 'user', content: text }],
-        }),
+      const res = await axios.post('/ai/chat', {
+        system: systemPrompt,
+        messages: [{ role: 'user', content: text }],
       });
-      const data = await res.json();
-      const txt = data.content?.map(b => b.text || '').join('') || 'No response received.';
+      const txt = res.data.content || 'No response received.';
       setResponse(txt);
     } catch (err) {
       setResponse('Unable to connect to AI. Please check your connection and try again.');
@@ -1042,18 +1036,11 @@ ${docContext ? `DOCUMENT CONTEXT:\n${docContext}` : 'No document currently selec
     setGenerating(true);
     const systemPrompt = `You are Veritas AI, a Kenyan legal document generator. Generate complete, professional legal documents compliant with Kenyan law. Return ONLY the document text, properly formatted, with no preamble or explanation. Make it realistic, detailed, and complete.`;
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: systemPrompt,
-          messages: [{ role: 'user', content: `Generate a ${genType} with the following details: ${genDetails}. This must be Kenya-law compliant. Include all necessary clauses, parties, dates, and signatures sections.` }],
-        }),
+      const res = await axios.post('/ai/chat', {
+        system: systemPrompt,
+        messages: [{ role: 'user', content: `Generate a ${genType} with the following details: ${genDetails}. This must be Kenya-law compliant. Include all necessary clauses, parties, dates, and signatures sections.` }],
       });
-      const data = await res.json();
-      const txt = data.content?.map(b => b.text || '').join('') || '';
+      const txt = res.data.content || '';
       if (onGenerateDoc) onGenerateDoc(genType, txt);
       setShowGenerate(false);
       setGenType('');
